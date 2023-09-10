@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Row, Col, Card, Button, Space, Divider, Typography, Checkbox, List } from "antd";
 import useWindowSize from "../../hooks/useWindowSize";
-import { Link } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { Link } from "react-router-dom";
 
 
 const { Text } = Typography;
@@ -139,8 +139,9 @@ const SearchResult = (props: any) => {
                                             </List.Item>
                                         )}
                                     />
-                                    <Button href="result" disabled={promotion && index1 !== 0} onClick={() => handleFlightSelect(obj)} danger block>Uçuşu Seç</Button>
-
+                                    <Link to="result">
+                                        <Button disabled={promotion && index1 !== 0} onClick={() => handleFlightSelect(obj)} danger block>Uçuşu Seç</Button>
+                                    </Link>
                                 </Col>
                                 )
                             })

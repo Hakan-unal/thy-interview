@@ -1,5 +1,6 @@
-import { Button, Result } from "antd";
+import { Result } from "antd";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { Link } from "react-router-dom";
 
 const ResultPage = (props: any) => {
     const [lsFormData, setLsFormData] = useLocalStorage("lsFormData", undefined)
@@ -21,9 +22,9 @@ const ResultPage = (props: any) => {
                 </p>
             </>}
             extra={[
-                <Button onClick={clearLS} href="/" >
+                <Link onClick={clearLS} to="/" >
                     Anasayfa'ya Dön
-                </Button>,
+                </Link>,
             ]}
         />
     );
