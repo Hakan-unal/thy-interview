@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Row, Form, DatePicker, Select, Input, Popover, Button, Radio, Col } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { Row, Form, DatePicker, Select, Input, Popover, Button, Radio, Col, Space, Divider, Typography, Switch } from "antd";
 import { showNotification } from "../../components/general/notification";
 import type { DatePickerProps } from 'antd';
 import type { RadioChangeEvent } from 'antd';
@@ -10,7 +10,7 @@ import data from "../../staticData/flights.json"
 import useWindowSize from "../../hooks/useWindowSize";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import FormItem from "antd/es/form/FormItem";
-
+import SearchResult from "../../components/search/result"
 
 
 
@@ -19,8 +19,9 @@ const Home = (props: any) => {
     const size = useWindowSize()
     const [form] = Form.useForm();
     const [open, setOpen] = useState<boolean>(false);
+    const [promotion, setPromotion] = useState<boolean>(false);
     const person = Form.useWatch('person', form);
-    const [lsFormData, setLsFormData] = useLocalStorage("searchData", {})
+    const [lsFormData, setLsFormData] = useLocalStorage("lsFormData", undefined)
 
     const onFinishFailed = () => {
         showNotification("warning", "Uyarı", "Eksik alanları doldurup devam edebilirsiniz", null)
@@ -28,12 +29,11 @@ const Home = (props: any) => {
 
     const onFinish = (data: any) => {
 
-        setLsFormData(data)
+        setLsFormData({ person: 1, class: 1, ...data, })
     };
 
-
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
+    const handlePromotion = (checked: boolean) => {
+        setPromotion(checked)
     };
 
     const handlePerson = (type: string) => {
@@ -43,8 +43,6 @@ const Home = (props: any) => {
             default: console.log("hellow world"); break;
         }
     }
-
-
 
     const PopoverContent = () => {
         return (<Row>
@@ -85,22 +83,15 @@ const Home = (props: any) => {
 
             </Col>
 
+
+
         </Row>
         )
     }
 
 
-
-    useMemo(() => {
-
-
-        console.log(data)
-
-    }, [data])
-
-
-    return (<Row justify={"center"}>
-        <Form
+    return (<Row style={{ width: size.width / 1.1 }} justify={"center"}>
+        {!lsFormData && <Form
             requiredMark={false}
             layout={size.width > 820 ? "inline" : "horizontal"}
             form={form}
@@ -108,8 +99,8 @@ const Home = (props: any) => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
             wrapperCol={{ span: 24 }}
+            initialValues={{ class: 1, person: 1 }}
             size="large"
-            initialValues={{ person: 1, class: 1 }}
         >
             <Form.Item
 
@@ -121,7 +112,7 @@ const Home = (props: any) => {
                     suffixIcon={<BiSolidPlaneTakeOff size={20} />}
                     placeholder="Nereden"
                     options={[
-                        { value: 'origin', label: data.flights[0].originAirport.city.name + " (" + data.flights[0].originAirport.city.code + ")" },
+                        { value: data.flights[0].originAirport.city.name, label: data.flights[0].originAirport.city.name + " (" + data.flights[0].originAirport.city.code + ")" },
                     ]}
                 />
             </Form.Item>
@@ -136,7 +127,7 @@ const Home = (props: any) => {
                     suffixIcon={<BiSolidPlaneLand size={20} />}
                     placeholder="Nereye"
                     options={[
-                        { value: 'destination', label: data.flights[0].destinationAirport.city.name + " (" + data.flights[0].destinationAirport.city.code + ")" },
+                        { value: data.flights[0].destinationAirport.city.name, label: data.flights[0].destinationAirport.city.name + " (" + data.flights[0].destinationAirport.city.code + ")" },
                     ]}
                 />
 
@@ -150,7 +141,7 @@ const Home = (props: any) => {
 
                     suffixIcon={<MdDateRange size={20} />}
                     placeholder="Tarih"
-                    onChange={onChange} />
+                />
             </Form.Item>
 
             <Form.Item name="temp">
@@ -174,7 +165,42 @@ const Home = (props: any) => {
                 </Button>
             </Form.Item>
 
-        </Form>
+        </Form>}
+        <Divider />
+
+        {
+            lsFormData && (
+                <Row>
+                    <Col xs={24}>
+                        <Typography.Title>
+                            {lsFormData.origin + " - " + lsFormData.destination + ", " + lsFormData.person + " Yolcu"}
+                        </Typography.Title>
+                    </Col>
+                    <Col xs={4}>
+                        <Typography.Text strong>
+                            Promosyon Kodu
+                        </Typography.Text>
+                    </Col>
+                    <Col xs={12}>
+                        <Switch checked={promotion} onChange={handlePromotion} />
+                    </Col>
+                    <Col xs={24}>
+                        <Typography.Text>
+                            Promosyon Kodu seçeneği ile tüm Economy kabini Eco Fly paketlerini %50 indirimle satın alabilirsiniz!
+                        </Typography.Text>
+
+                    </Col>
+                    <Col xs={24}>
+
+                        <Typography.Text>
+                            Promosyon Kodu seçeneği aktifken Eco Fly paketi haricinde seçim yapılamamaktadır.
+                        </Typography.Text>
+                    </Col>
+
+                    <SearchResult promotion={promotion} data={data} />
+                </Row>
+            )
+        }
 
     </Row>
     );

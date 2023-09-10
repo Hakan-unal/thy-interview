@@ -2,6 +2,7 @@
 import { Layout, theme } from "antd"
 import { Route, Routes } from 'react-router-dom';
 import Home from "./pages/home/home"
+import Result from "./pages/result/result"
 import Page404 from "./pages/404/404"
 
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
     >
       <Routes>
         <Route path="/" Component={Home}></Route>
+        <Route path="/result" Component={Result}></Route>
         <Route path="*" Component={Page404}></Route>
       </Routes>
 

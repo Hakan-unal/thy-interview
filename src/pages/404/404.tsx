@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
-import { Result } from "antd";
+import { Button, Result } from "antd";
 
-const Page404 = (props:any) => {
+const Page404 = (props: any) => {
   return (
     <Result
-      status="404"
-      title="404"
-      subTitle="Sayfa Bulunamadı"
-      extra={
-        <Link to="/" type="primary">
-          Anasayfa'ya dönmek için tıklayın
-        </Link>
-      }
+      status="success"
+      title="Successfully Purchased Cloud Server ECS!"
+      subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+      extra={[
+        <Button type="primary" key="console">
+          Go Console
+        </Button>,
+        <Button key="buy">Buy Again</Button>,
+      ]}
     />
   );
 };
