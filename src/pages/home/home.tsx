@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Row, Form, DatePicker, Select, Input, Popover, Button, Radio, Col, Space, Divider, Typography, Switch } from "antd";
 import { showNotification } from "../../components/general/notification";
-import type { DatePickerProps } from 'antd';
-import type { RadioChangeEvent } from 'antd';
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { MdDateRange, MdPersonAddAlt1 } from "react-icons/md";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -11,7 +9,7 @@ import useWindowSize from "../../hooks/useWindowSize";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import FormItem from "antd/es/form/FormItem";
 import SearchResult from "../../components/search/result"
-
+import { changePageTitle } from "../../components/general/changePageTitle";
 
 
 
@@ -43,6 +41,10 @@ const Home = (props: any) => {
             default: console.log("hellow world"); break;
         }
     }
+
+    useMemo(() => {
+        lsFormData ? changePageTitle("Arama Sonucu Ekranı") : changePageTitle("Arama Ekranı")
+    }, [lsFormData])
 
     const PopoverContent = () => {
         return (<Row>

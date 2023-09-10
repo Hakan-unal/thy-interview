@@ -1,6 +1,8 @@
 import { Result } from "antd";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { changePageTitle } from "../../components/general/changePageTitle";
 
 const ResultPage = (props: any) => {
     const [lsFormData, setLsFormData] = useLocalStorage("lsFormData", undefined)
@@ -11,6 +13,11 @@ const ResultPage = (props: any) => {
         setLsSelectedFlight(undefined)
         setLsFormData(undefined)
     }
+
+    useMemo(() => {
+        changePageTitle("Özet Ekranı")
+    }, [])
+
     return (
         <Result
             status="success"
