@@ -1,50 +1,38 @@
 
-import { useMemo, useState } from "react";
-import { Row, Popover, Table, Button, Space, Drawer, Form, Input, Tooltip } from "antd"
-import { showNotification } from "./components/general/notification";
-import { PlusOutlined } from '@ant-design/icons';
-import TextArea from "antd/es/input/TextArea";
-import { BiTrashAlt, BiPencil } from "react-icons/bi";
-
-const deletePopoverContent = (
-  <div>
-    <p>Click for delete</p>
-  </div>
-);
-
-const editPopoverContent = (
-  <div>
-    <p>Click for edit</p>
-  </div>
-);
+import { Layout, theme } from "antd"
+import { Route, Routes } from 'react-router-dom';
+import Home from "./pages/home/home"
+import Page404 from "./pages/404/404"
 
 
 
+const { Content } = Layout;
 
-type FormValues = {
-  name: string,
-  description: string,
-  price: number,
-  key?: number,
-  id: number
-}
+const App: React.FC = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
 
-const App = () => {
-  const [data, setData] = useState<object[]>([])
-  const [open, setOpen] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState<FormValues | null>(null);
-
-  const [form] = Form.useForm();
+  return (<Layout >
 
 
+    <Content
+      style={{
+        margin: '24px 16px',
+        padding: 24,
+        minHeight: 400,
+        background: colorBgContainer,
+      }}
+    >
+      <Routes>
+        <Route path="/" Component={Home}></Route>
+        <Route path="*" Component={Page404}></Route>
+      </Routes>
 
+    </Content>
 
-
-  return (<Row justify={"center"}>
-
-
-  </Row>
+  </Layout>
   )
 }
 

@@ -3,7 +3,7 @@ import { notification } from 'antd';
 notification.config({
     duration: 2.5,
     maxCount: 3,
-    placement: "topLeft"
+    placement: "topRight"
 });
 
 export const showNotification = (type: string, message: string, description: string, style: any) => {
